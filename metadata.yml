@@ -40,3 +40,6 @@ Source Code: https://github.com/NVIDIA-Digital-Bio/genmol
 License: Apache-2.0
 Contributor: arnaucoma24
 Incorporation Date: '2026-08-04'
+S3: https://ersilia-models-zipped.s3.eu-central-1.amazonaws.com/eos84nf.zip
+Model Size: 1334.0
+Environment Size: 2216.0
