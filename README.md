@@ -2,6 +2,7 @@
 
 Given a scaffold molecule with attachment points, generates new drug-like molecules by decorating it with novel side fragments, using masked discrete diffusion over a fragment-based (SAFE) molecular representation. Trained on ZINC and UniChem data, it outperforms the earlier autoregressive SAFE-GPT model on validity, molecular quality, and diversity, while sampling substantially faster via non-autoregressive parallel decoding — useful for exploring synthesizable, chemically valid analogues around a known scaffold during hit-to-lead optimization.
 
+This model was incorporated on 2026-08-04.
 
 
 ## Information
@@ -43,8 +44,11 @@ _10 of 100 columns are shown_
 ### Source and Deployment
 - **Source:** `Local`
 - **Source Type:** `External`
+- **S3 Storage**: [https://ersilia-models-zipped.s3.eu-central-1.amazonaws.com/eos84nf.zip](https://ersilia-models-zipped.s3.eu-central-1.amazonaws.com/eos84nf.zip)
 
 ### Resource Consumption
+- **Model Size (Mb):** `1334`
+- **Environment Size (Mb):** `2216`
 
 
 ### References
