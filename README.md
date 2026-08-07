@@ -2,8 +2,7 @@
 
 Given a scaffold molecule with attachment points, generates new drug-like molecules by decorating it with novel side fragments, using masked discrete diffusion over a fragment-based (SAFE) molecular representation. Trained on ZINC and UniChem data, it outperforms the earlier autoregressive SAFE-GPT model on validity, molecular quality, and diversity, while sampling substantially faster via non-autoregressive parallel decoding — useful for exploring synthesizable, chemically valid analogues around a known scaffold during hit-to-lead optimization.
 
-This model was incorporated on 2026-08-04.
-
+This model was incorporated on 2026-08-04.Last packaged on 2026-08-07.
 
 ## Information
 ### Identifiers
@@ -44,12 +43,19 @@ _10 of 100 columns are shown_
 ### Source and Deployment
 - **Source:** `Local`
 - **Source Type:** `External`
+- **DockerHub**: [https://hub.docker.com/r/ersiliaos/eos84nf](https://hub.docker.com/r/ersiliaos/eos84nf)
+- **Docker Architecture:** `AMD64`, `ARM64`
 - **S3 Storage**: [https://ersilia-models-zipped.s3.eu-central-1.amazonaws.com/eos84nf.zip](https://ersilia-models-zipped.s3.eu-central-1.amazonaws.com/eos84nf.zip)
 
 ### Resource Consumption
 - **Model Size (Mb):** `1334`
 - **Environment Size (Mb):** `2216`
+- **Image Size (Mb):** `4838.03`
 
+**Computational Performance (seconds):**
+- 10 inputs: `406.55`
+- 100 inputs: `-1`
+- 10000 inputs: `-1`
 
 ### References
 - **Source Code**: [https://github.com/NVIDIA-Digital-Bio/genmol](https://github.com/NVIDIA-Digital-Bio/genmol)
