@@ -1,6 +1,6 @@
 Identifier: eos84nf
 Slug: genmol-scaffold-decoration
-Status: In progress
+Status: Ready
 Title: GenMol Scaffold Decoration
 Description: Given a scaffold molecule with attachment points, generates new 
   drug-like molecules by decorating it with novel side fragments, using masked 
@@ -40,6 +40,18 @@ Source Code: https://github.com/NVIDIA-Digital-Bio/genmol
 License: Apache-2.0
 Contributor: arnaucoma24
 Incorporation Date: '2026-08-04'
+Last Packaging Date: '2026-08-07'
+Release: v1.0.0
 S3: https://ersilia-models-zipped.s3.eu-central-1.amazonaws.com/eos84nf.zip
+DockerHub: https://hub.docker.com/r/ersiliaos/eos84nf
+Docker Architecture:
+  - AMD64
+  - ARM64
 Model Size: 1334.0
 Environment Size: 2216.0
+Image Size: 4838.03
+Computational Performance 1: 406.55
+Computational Performance 2: -1.0
+Computational Performance 3: -1.0
+Computational Performance 4: -1.0
+Computational Performance 5: -1.0
