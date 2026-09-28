@@ -2,7 +2,7 @@
 
 Given a scaffold molecule with attachment points, generates new drug-like molecules by decorating it with novel side fragments, using masked discrete diffusion over a fragment-based (SAFE) molecular representation. Trained on ZINC and UniChem data, it outperforms the earlier autoregressive SAFE-GPT model on validity, molecular quality, and diversity, while sampling substantially faster via non-autoregressive parallel decoding — useful for exploring synthesizable, chemically valid analogues around a known scaffold during hit-to-lead optimization.
 
-This model was incorporated on 2026-08-04.Last packaged on 2026-08-07.
+This model was incorporated on 2026-08-04.Last packaged on 2026-09-28.
 
 ## Information
 ### Identifiers
@@ -50,10 +50,10 @@ _10 of 100 columns are shown_
 ### Resource Consumption
 - **Model Size (Mb):** `1334`
 - **Environment Size (Mb):** `2269`
-- **Image Size (Mb):** `4838.03`
+- **Image Size (Mb):** `4874.31`
 
 **Computational Performance (seconds):**
-- 10 inputs: `406.55`
+- 10 inputs: `545.87`
 - 100 inputs: `-1`
 - 10000 inputs: `-1`
 
