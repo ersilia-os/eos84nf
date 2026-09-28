@@ -1,6 +1,7 @@
 # imports
 import os
 import sys
+from rdkit import Chem
 from ersilia_pack_utils.core import read_smiles, write_out
 
 # current file directory
@@ -28,6 +29,13 @@ sampler = Sampler(CHECKPOINT_PATH)
 
 
 # my model
+def _canonical_no_stereo(smi):
+    mol = Chem.MolFromSmiles(smi)
+    if mol is None:
+        return None
+    return Chem.MolToSmiles(Chem.MolFromSmiles(Chem.MolToSmiles(mol, isomericSmiles=False)))
+
+
 def my_model(smiles_list):
     outputs = []
     for smi in smiles_list:
@@ -37,7 +45,23 @@ def my_model(smiles_list):
             )
         except Exception:
             samples = []
-        samples = list(samples[:NUM_SAMPLES]) + [""] * (NUM_SAMPLES - len(samples))
+
+        # fragment_completion only constrains outputs to contain the sampled
+        # attachment-point fragment (a piece of the input); nothing stops the
+        # completion step from reconstructing the whole input around it, or
+        # from repeating the same completion. Confirmed empirically: 39/97
+        # valid outputs for one benchmark compound were the unchanged input.
+        input_key = _canonical_no_stereo(smi)
+        seen = set()
+        filtered = []
+        for s in samples:
+            key = _canonical_no_stereo(s)
+            if key is None or key == input_key or key in seen:
+                continue
+            seen.add(key)
+            filtered.append(s)
+
+        samples = list(filtered[:NUM_SAMPLES]) + [""] * (NUM_SAMPLES - len(filtered))
         outputs.append(samples)
     return outputs
 
