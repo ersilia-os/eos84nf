@@ -43,14 +43,18 @@ def my_model(smiles_list):
             samples = sampler.fragment_completion(
                 smi, NUM_SAMPLES, softmax_temp=SOFTMAX_TEMP, randomness=RANDOMNESS, gamma=GAMMA
             )
-        except Exception:
+        except Exception as e:
+            # an empty row for this input; the cause (unparsable SMILES, no atom
+            # bearing a hydrogen, a model error) is reported instead of swallowed
+            print(f"GenMol failed for {smi!r}: {type(e).__name__}: {e}", file=sys.stderr)
             samples = []
 
-        # fragment_completion only constrains outputs to contain the sampled
-        # attachment-point fragment (a piece of the input); nothing stops the
-        # completion step from reconstructing the whole input around it, or
-        # from repeating the same completion. Confirmed empirically: 39/97
-        # valid outputs for one benchmark compound were the unchanged input.
+        # For an input without `*`, GenMol adds one to three `*` attachment
+        # points at random hydrogen-bearing atoms of the whole input and keeps
+        # only samples that contain the input as a substructure, so every output
+        # extends the whole input. Nothing stops it from returning the unchanged
+        # input or repeating a completion. Confirmed empirically: 39/97 valid
+        # outputs for one benchmark compound were the unchanged input.
         input_key = _canonical_no_stereo(smi)
         seen = set()
         filtered = []

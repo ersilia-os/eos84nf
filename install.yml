@@ -2,5 +2,5 @@ python: "3.10"
 commands:
     - ["pip", "torch", "2.6.0+cpu", "--index-url", "https://download.pytorch.org/whl/cpu"]
     - ["pip", "setuptools", "80.10.2"]
-    - ["pip", "git+https://github.com/NVIDIA-Digital-Bio/genmol.git"]
+    - ["pip", "git+https://github.com/NVIDIA-Digital-Bio/genmol.git@add09fc83b7255bd09c797e527c0f4b51f5fb7c1"]
     - ["pip", "ersilia-pack-utils", "0.1.5"]
