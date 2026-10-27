@@ -13,8 +13,11 @@ root = os.path.dirname(os.path.abspath(__file__))
 import genmol.sampler as genmol_sampler
 genmol_sampler.ROOT_DIR = root
 from genmol.sampler import Sampler
+import genmol.model as genmol_model
+from safe.tokenizer import SAFETokenizer
 
 CHECKPOINT_PATH = os.path.join(root, "..", "..", "checkpoints", "model.ckpt")
+TOKENIZER_PATH = os.path.join(root, "..", "..", "checkpoints", "tokenizer.json")
 NUM_SAMPLES = 100
 SOFTMAX_TEMP = 1.2
 RANDOMNESS = 2
@@ -23,6 +26,18 @@ GAMMA = 0.3
 # parse arguments
 input_file = sys.argv[1]
 output_file = sys.argv[2]
+
+
+def _local_tokenizer():
+    # genmol's get_tokenizer() downloads datamol-io/safe-gpt from the Hugging Face
+    # Hub every time the model is built; the same tokenizer.json is kept next to
+    # the checkpoint instead, with the two bracket tokens genmol adds to it
+    tokenizer = SAFETokenizer.load(TOKENIZER_PATH).get_pretrained()
+    tokenizer.add_tokens(["<", ">"])
+    return tokenizer
+
+
+genmol_model.get_tokenizer = _local_tokenizer
 
 # load model once
 sampler = Sampler(CHECKPOINT_PATH)
