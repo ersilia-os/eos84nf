@@ -18,7 +18,9 @@ from safe.tokenizer import SAFETokenizer
 
 CHECKPOINT_PATH = os.path.join(root, "..", "..", "checkpoints", "model.ckpt")
 TOKENIZER_PATH = os.path.join(root, "..", "..", "checkpoints", "tokenizer.json")
-NUM_SAMPLES = 100
+NUM_SAMPLES = 100  # outputs per input
+ROUND_SIZE = 100  # samples GenMol draws per call
+MAX_ROUNDS = 5
 SOFTMAX_TEMP = 1.2
 RANDOMNESS = 2
 GAMMA = 0.3
@@ -54,31 +56,35 @@ def _canonical_no_stereo(smi):
 def my_model(smiles_list):
     outputs = []
     for smi in smiles_list:
-        try:
-            samples = sampler.fragment_completion(
-                smi, NUM_SAMPLES, softmax_temp=SOFTMAX_TEMP, randomness=RANDOMNESS, gamma=GAMMA
-            )
-        except Exception as e:
-            # an empty row for this input; the cause (unparsable SMILES, no atom
-            # bearing a hydrogen, a model error) is reported instead of swallowed
-            print(f"GenMol failed for {smi!r}: {type(e).__name__}: {e}", file=sys.stderr)
-            samples = []
-
-        # For an input without `*`, GenMol adds one to three `*` attachment
-        # points at random hydrogen-bearing atoms of the whole input and keeps
-        # only samples that contain the input as a substructure, so every output
-        # extends the whole input. Nothing stops it from returning the unchanged
-        # input or repeating a completion. Confirmed empirically: 39/97 valid
-        # outputs for one benchmark compound were the unchanged input.
+        # For an input without `*`, GenMol adds one to three `*` attachment points at
+        # random hydrogen-bearing atoms of the whole input (once per call) and keeps only
+        # samples that contain the input as a substructure, so every output extends the
+        # whole input. It can still return the unchanged input or repeat a completion
+        # (39/97 valid outputs for one benchmark compound were the unchanged input), so a
+        # call gives about 64 distinct outputs of 100. A larger request keeps the same
+        # attachment points; a new call draws new ones, so calls are repeated until
+        # NUM_SAMPLES distinct outputs are collected or MAX_ROUNDS is reached.
         input_key = _canonical_no_stereo(smi)
         seen = set()
         filtered = []
-        for s in samples:
-            key = _canonical_no_stereo(s)
-            if key is None or key == input_key or key in seen:
-                continue
-            seen.add(key)
-            filtered.append(s)
+        for _ in range(MAX_ROUNDS):
+            try:
+                samples = sampler.fragment_completion(
+                    smi, ROUND_SIZE, softmax_temp=SOFTMAX_TEMP, randomness=RANDOMNESS, gamma=GAMMA
+                )
+            except Exception as e:
+                # keep what earlier rounds gave; the cause (unparsable SMILES, no atom
+                # bearing a hydrogen, a model error) is reported instead of swallowed
+                print(f"GenMol failed for {smi!r}: {type(e).__name__}: {e}", file=sys.stderr)
+                break
+            for s in samples:
+                key = _canonical_no_stereo(s)
+                if key is None or key == input_key or key in seen:
+                    continue
+                seen.add(key)
+                filtered.append(s)
+            if len(filtered) >= NUM_SAMPLES:
+                break
 
         samples = list(filtered[:NUM_SAMPLES]) + [""] * (NUM_SAMPLES - len(filtered))
         outputs.append(samples)
