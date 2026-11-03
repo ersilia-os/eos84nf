@@ -3,7 +3,7 @@
 Grows an input molecule into up to 100 larger drug-like molecules, each containing the whole input. GenMol, from NVIDIA, applies masked discrete diffusion over the SAFE fragment representation, revealing fragment blocks in parallel rather than token by token, beating the autoregressive SAFE-GPT on validity, quality and diversity. Trained on the SAFE corpus from ZINC and UniChem. Sampling is stochastic and unseeded. GenMol is called up to five times with new attachment points, dropping duplicates and copies of the input, until 100 molecules are collected.
 
 This model was incorporated on 2026-08-04.
-Last packaged on 2026-10-28.
+Last packaged on 2026-11-03.
 
 ## Information
 ### Identifiers
@@ -51,10 +51,10 @@ _10 of 100 columns are shown_
 ### Resource Consumption
 - **Model Size (Mb):** `1334`
 - **Environment Size (Mb):** `2240`
-- **Image Size (Mb):** `4849.47`
+- **Image Size (Mb):** `3370.97`
 
 **Computational Performance (seconds):**
-- 10 inputs: `775.65`
+- 10 inputs: `1020.72`
 - 100 inputs: `-1`
 - 10000 inputs: `-1`
 
