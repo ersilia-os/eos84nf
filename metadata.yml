@@ -40,7 +40,7 @@ Source Code: https://github.com/NVIDIA-Digital-Bio/genmol
 License: Apache-2.0
 Contributor: arnaucoma24
 Incorporation Date: '2026-08-04'
-Last Packaging Date: '2026-11-03'
+Last Packaging Date: '2026-11-25'
 Release: v1.1.1
 S3: https://ersilia-models-zipped.s3.eu-central-1.amazonaws.com/eos84nf.zip
 DockerHub: https://hub.docker.com/r/ersiliaos/eos84nf
@@ -50,8 +50,8 @@ Docker Architecture:
 Apptainer: https://models-sif.s3.eu-north-1.amazonaws.com/eos84nf_v1.sif
 Model Size: 1334.0
 Environment Size: 2158.0
-Image Size: 3370.97
-Computational Performance 1: 1020.72
+Image Size: 1833.62
+Computational Performance 1: 1071.38
 Computational Performance 2: -1.0
 Computational Performance 3: -1.0
 Computational Performance 4: -1.0
